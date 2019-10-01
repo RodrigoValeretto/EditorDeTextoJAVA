@@ -8,18 +8,20 @@ package editordetexto;
 import java.util.InvalidPropertiesFormatException;
 import java.util.LinkedList;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
- *
- * @author rodrigo
+ * Classe principal do programa, contém uma variável do tipo Texto e duas LinkedLists.
+ * @author Rodrigo Valeretto e Leonardo Cerce
  */
 public class EditorDeTexto {
     private Texto t;
     private LinkedList<Alteracoes> desfaz;
     private LinkedList<Alteracoes> refaz;
     
+    /**
+     * Imprime na tela do usuário o texto completo por ele editado.
+     * @author Rodrigo Valeretto e Leonardo Cerce
+     */
     public void exibetexto()
     {
         for(char l : this.t.getText())
@@ -30,6 +32,10 @@ public class EditorDeTexto {
         System.out.print("\n");
     }
     
+    /**
+     * Função que desfaz a última alteração feita pelo usuário, salvando-a na lista de possíveis ações a serem refeitas.
+     * @throws NullPointerException 
+     */
     public void desfazer() throws NullPointerException
     {
         if(this.desfaz.isEmpty())
@@ -64,6 +70,10 @@ public class EditorDeTexto {
             
     }
     
+    /**
+     * Função que refaz a última modificação que foi desfeita pelo usuário.
+     * @throws NullPointerException 
+     */
         public void refazer() throws NullPointerException
     {
         if(this.refaz.isEmpty())
@@ -100,7 +110,12 @@ public class EditorDeTexto {
             
     }
 
-    
+    /**
+     * Função que remove uma determinada quantidade de caracteres, especificada pelo usuário.
+     * @param num
+     * @return String
+     * @throws InvalidPropertiesFormatException 
+     */
     public String removetexto(int num) throws InvalidPropertiesFormatException
     {
         if(num > this.t.getText().size())
@@ -121,6 +136,11 @@ public class EditorDeTexto {
         return aux;
     }
     
+    /**
+     * Função que insere o texto digitado pelo usuário até que ele pressione "Enter".
+     * @param str
+     * @throws NullPointerException 
+     */
     public void inseretexto(String str) throws NullPointerException
     {
         if(str.isEmpty())
@@ -135,18 +155,33 @@ public class EditorDeTexto {
         }
     }
 
+    /**
+     * Função que insere um elemento da classe Alterações em uma lista encadeada de alterações passada na função
+     * @param a
+     * @param str
+     * @param n 
+     */
     public void inserealteracao(LinkedList<Alteracoes> a, String str, String n)
     {
         Alteracoes e = new Alteracoes(str, n);
         a.add(e);
     }
     
+    /**
+     * Função que remove o último elemento da classe Alterações de uma lista encadeada de alterações passada na função
+     * @param a
+     * @return Retorna o elemento removido da lista
+     */
     public Alteracoes removealteracao(LinkedList<Alteracoes> a)
     {
         Alteracoes e = a.removeLast();
         return e;
     }
     
+    /**
+     * Construtor da classe EditorDeTexto
+     * @author Rodrigo Valeretto e Leonardo Cerce
+     */
     public EditorDeTexto() {
         this.t = new Texto();
         this.desfaz = new LinkedList();
@@ -154,6 +189,7 @@ public class EditorDeTexto {
     }
     
     /**
+     * Programa principal do editor de texto
      * @param args the command line arguments
      */    
     public static void main(String[] args) {
@@ -241,8 +277,7 @@ public class EditorDeTexto {
                     {
                         System.out.println(f.getMessage());
                     }
-                    break;                  
-                    
+                    break;
             }
         }
         
