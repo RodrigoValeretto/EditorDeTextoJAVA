@@ -27,13 +27,30 @@ public class EditorDeTexto extends JFrame{
     private Texto t;
     private LinkedList<Alteracoes> desfaz;
     private LinkedList<Alteracoes> refaz;
-    private JPanel painel = new JPanel();
-    private JButton redo = new JButton("Refazer");
-    private JButton undo = new JButton("Desfazer");
-    private JButton insert = new JButton("Inserir Texto");
-    private JTextArea visor = new JTextArea();
-    private JScrollPane scroll = new JScrollPane(visor);
 
+    public Texto getT() {
+        return t;
+    }
+
+    public void setT(Texto t) {
+        this.t = t;
+    }
+
+    public LinkedList<Alteracoes> getDesfaz() {
+        return desfaz;
+    }
+
+    public void setDesfaz(LinkedList<Alteracoes> desfaz) {
+        this.desfaz = desfaz;
+    }
+
+    public LinkedList<Alteracoes> getRefaz() {
+        return refaz;
+    }
+
+    public void setRefaz(LinkedList<Alteracoes> refaz) {
+        this.refaz = refaz;
+    }
     /**
      * Imprime na tela do usuário o texto completo por ele editado.
      * @author Rodrigo Valeretto e Leonardo Cerce
@@ -199,85 +216,9 @@ public class EditorDeTexto extends JFrame{
      * @author Rodrigo Valeretto e Leonardo Cerce
      */
     public EditorDeTexto() {
-        super("Editor de Texto");
         this.t = new Texto();
         this.desfaz = new LinkedList();
         this.refaz = new LinkedList();
-        
-        painel.setLayout(new GridLayout(1,8));
-        
-        this.setSize(1280,720);
-        this.setLayout(new BorderLayout());
-
-        painel.add(undo);
-        painel.add(redo);
-        painel.add(insert);
-        
-        visor.setEditable(false);
-        visor.setLineWrap(true);
-        scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        scroll.setPreferredSize(new Dimension(768,1024));
-        
-        this.add(painel, BorderLayout.SOUTH);
-        this.add(scroll, BorderLayout.NORTH);
-        
-        undo.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent a) {
-                String str = "";
-                try
-                {
-                    desfazer();
-                    for(char i : t.getText())
-                        str = str.concat(String.valueOf(i));
-                    visor.setText(str);
-                }catch(NullPointerException f)
-                {
-                    System.out.println(f.getMessage());
-                }
-
-            }
-        });
-        
-        redo.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent a) {
-                String str = "";
-                try
-                {
-                    refazer();
-                    for(char i : t.getText())
-                        str = str.concat(String.valueOf(i));
-                    visor.setText(str);
-                }catch(NullPointerException f)
-                {
-                    System.out.println(f.getMessage());
-                }
-
-            }
-        });
-        
-        insert.addActionListener(new ActionListener(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JInserir ins = new JInserir(t);
-                String str = "";
-                int x;
-                x = t.getText().size();
-                ins.setVisible(true);
-
-                do{
-                    t.setText(ins.getT().getText());
-                  }while(ins.getArea().getText() != ins.getT().getText().toString());
-                
-                for(char i : ins.getT().getText())
-                    str = str.concat(String.valueOf(i));
-                
-                inseretexto(str);
-                visor.setText(str);
-                
-            }
-        });
     }
     
     /**
@@ -291,9 +232,10 @@ public class EditorDeTexto extends JFrame{
         int num;
         String n;
         String op;
+        GUI g= new GUI(e);
         
-        e.setVisible(true);
-        e.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        g.setVisible(true);
+        
         
         while(true)
         {
