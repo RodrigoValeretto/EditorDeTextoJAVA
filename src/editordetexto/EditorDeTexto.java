@@ -5,19 +5,10 @@
  */
 package editordetexto;
 
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.InvalidPropertiesFormatException;
 import java.util.LinkedList;
 import java.util.Scanner;
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 
 /**
  * Classe principal do programa, contém uma variável do tipo Texto e duas LinkedLists.

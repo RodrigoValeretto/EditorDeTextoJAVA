@@ -20,10 +20,11 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 /**
- *
+ * Classe correspondente a interface gráfica do editor de texto
  * @author rodrigo
  */
 public class GUI extends JFrame{
+    private Server server = new Server();
     private EditorDeTexto ed;
     private String copiado;
     private JPanel painel = new JPanel();
@@ -34,12 +35,16 @@ public class GUI extends JFrame{
     private JButton copy = new JButton("Copiar");
     private JButton cut = new JButton("Recortar");
     private JButton paste = new JButton("Colar");
+    private JButton save = new JButton("Salvar");
     private JTextArea visor = new JTextArea();
     private JTextArea com = new JTextArea();
     private JScrollPane scroll = new JScrollPane(visor);
     private JScrollPane scroll2 = new JScrollPane(com);
     
-    
+    /**
+     * Construtor da classe editor de texto
+     * @param n 
+     */
     public GUI(EditorDeTexto n)
     {
         this.ed = n;
@@ -47,7 +52,7 @@ public class GUI extends JFrame{
         
         painel.setLayout(new GridLayout(1,8));
         
-        this.setSize(800,800);
+        this.setSize(900,900);
         this.setLayout(new BorderLayout());
 
         painel.add(undo);
@@ -57,6 +62,7 @@ public class GUI extends JFrame{
         painel.add(copy);
         painel.add(cut);
         painel.add(paste);
+        painel.add(save);
         
         visor.setEditable(false);
         visor.setLineWrap(true);
@@ -140,10 +146,13 @@ public class GUI extends JFrame{
                 String str = "";
                 try 
                 {
-                    String aux = ed.removetexto(Integer.parseInt(com.getText()));
-                    ed.inserealteracao(ed.getDesfaz(),aux, "2");
-                    ed.getRefaz().clear();
-                }catch(InvalidPropertiesFormatException f)
+                    if(!com.getText().isEmpty())
+                    {   
+                        String aux = ed.removetexto(Integer.parseInt(com.getText()));
+                        ed.inserealteracao(ed.getDesfaz(),aux, "2");
+                        ed.getRefaz().clear();
+                    }else{throw new InvalidPropertiesFormatException("\nNenhum valor digitado!\n");}
+                }catch(InvalidPropertiesFormatException | NumberFormatException f)
                 {
                     System.out.println(f.getMessage());
                 }
@@ -194,8 +203,22 @@ public class GUI extends JFrame{
             }
         });
 
+        save.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                server.setNome(com.getText());
+                server.setTxt(visor.getText());
+                Thread t = new Thread(server);
+                t.start();
+                com.setText("");
+            }
+        });
     }
     
+    /**
+     * Função copiar : Copia um texto selecionado no visor para uma variável da classe GUI
+     * @throws NullPointerException
+     */
     public void copiar(){
         if(visor.getSelectedText() == null)
             throw new NullPointerException("Nenhum Texto Selecionado");
@@ -204,6 +227,10 @@ public class GUI extends JFrame{
         visor.select(0, 0);
     }
     
+    /**
+     * Função Recortar : Recorta um texto selecionado no visor para uma variável da classe GUI
+     * @throws NullPointerException
+     */
     public void recortar(){
         if(visor.getSelectedText() == null)
             throw new NullPointerException("Nenhum Texto Selecionado");
