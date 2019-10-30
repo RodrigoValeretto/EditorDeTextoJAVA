@@ -11,6 +11,8 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.InvalidPropertiesFormatException;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -24,7 +26,8 @@ import javax.swing.border.TitledBorder;
  * @author rodrigo
  */
 public class GUI extends JFrame{
-    private Server server = new Server();
+    private Server server = new Server(true);
+    private Lock lock = new ReentrantLock();
     private EditorDeTexto ed;
     private String copiado;
     private JPanel painel = new JPanel();
@@ -36,6 +39,7 @@ public class GUI extends JFrame{
     private JButton cut = new JButton("Recortar");
     private JButton paste = new JButton("Colar");
     private JButton save = new JButton("Salvar");
+    private JButton disconnect = new JButton("Deconectar");
     private JTextArea visor = new JTextArea();
     private JTextArea com = new JTextArea();
     private JScrollPane scroll = new JScrollPane(visor);
@@ -49,6 +53,7 @@ public class GUI extends JFrame{
     {
         this.ed = n;
         this.copiado = "";
+        Thread t = new Thread(server);
         
         painel.setLayout(new GridLayout(1,8));
         
@@ -63,6 +68,7 @@ public class GUI extends JFrame{
         painel.add(cut);
         painel.add(paste);
         painel.add(save);
+        painel.add(disconnect);
         
         visor.setEditable(false);
         visor.setLineWrap(true);
@@ -87,6 +93,7 @@ public class GUI extends JFrame{
             @Override
             public void actionPerformed(ActionEvent a) {
                 String str = "";
+                lock.lock();
                 try
                 {
                     ed.desfazer();
@@ -97,6 +104,7 @@ public class GUI extends JFrame{
                 {
                     System.out.println(f.getMessage());
                 }
+                finally{lock.unlock();}
 
             }
         });
@@ -105,6 +113,7 @@ public class GUI extends JFrame{
             @Override
             public void actionPerformed(ActionEvent a) {
                 String str = "";
+                lock.lock();
                 try
                 {
                     ed.refazer();
@@ -114,7 +123,7 @@ public class GUI extends JFrame{
                 }catch(NullPointerException f)
                 {
                     System.out.println(f.getMessage());
-                }
+                }finally{lock.unlock();}
 
             }
         });
@@ -123,6 +132,7 @@ public class GUI extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 String str = "";
+                lock.lock();
                 try
                 {
                     ed.inseretexto(com.getText());
@@ -131,7 +141,7 @@ public class GUI extends JFrame{
                 }catch(NullPointerException f)
                 {
                     System.out.println(f.getMessage());
-                }
+                }finally{lock.unlock();}
 
                 for(char i : ed.getT().getText())
                     str = str.concat(String.valueOf(i));
@@ -144,6 +154,7 @@ public class GUI extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 String str = "";
+                lock.lock();
                 try 
                 {
                     if(!com.getText().isEmpty())
@@ -155,7 +166,7 @@ public class GUI extends JFrame{
                 }catch(InvalidPropertiesFormatException | NumberFormatException f)
                 {
                     System.out.println(f.getMessage());
-                }
+                }finally{lock.unlock();}
                 
                 for(char i : ed.getT().getText())
                     str = str.concat(String.valueOf(i));
@@ -168,13 +179,14 @@ public class GUI extends JFrame{
         copy.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
+                lock.lock();
                 try
                 {
                     copiar();
                 }catch(NullPointerException ex)
                 {
                     System.out.println(ex.getMessage());
-                }
+                }finally{lock.unlock();}
 
             }
         });
@@ -182,6 +194,7 @@ public class GUI extends JFrame{
         cut.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
+                lock.lock();
                 try
                 {
                     recortar();
@@ -190,27 +203,41 @@ public class GUI extends JFrame{
                 }catch(NullPointerException ex)
                 {
                     System.out.println(ex.getMessage());
-                }
+                }finally{lock.unlock();}
             }
         });
 
         paste.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                colar();
-                ed.getRefaz().clear();
-                ed.getDesfaz().clear();
+                lock.lock();
+                try
+                {
+                    colar();
+                    ed.getRefaz().clear();
+                    ed.getDesfaz().clear();
+                }finally{lock.unlock();}
             }
         });
 
         save.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
+                if(!t.isAlive())
+                    t.start();
+                
                 server.setNome(com.getText());
                 server.setTxt(visor.getText());
-                Thread t = new Thread(server);
-                t.start();
-                com.setText("");
+                t.interrupt();
+                com.setText("");                
+            }
+        });
+        
+        disconnect.addActionListener(new ActionListener(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                server.setFlag(false);
+                t.interrupt();
             }
         });
     }

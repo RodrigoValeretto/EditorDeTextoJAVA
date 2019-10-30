@@ -15,6 +15,13 @@ import java.io.IOException;
 public class Server implements Runnable{
     private String nome;
     private String txt;
+    private boolean flag;
+
+    public Server(boolean flag) {
+        this.nome = "";
+        this.txt = "";
+        this.flag = flag;
+    }
 
     public String getNome() {
         return nome;
@@ -31,14 +38,32 @@ public class Server implements Runnable{
     public void setTxt(String txt) {
         this.txt = txt;
     }
+
+    public boolean isFlag() {
+        return flag;
+    }
+
+    public void setFlag(boolean flag) {
+        this.flag = flag;
+    }
     
     @Override
     public void run() {
-        try {
-            FileWriter str = new FileWriter(this.nome);
-            str.write(txt);
-            str.close();
-            System.out.println("Acabou a thread!!!");
-        } catch (IOException ex) {}
+        while(flag)
+        {
+            try
+            {
+                while(!Thread.interrupted())
+                {
+                    Thread.sleep(1);
+                }
+            }catch(InterruptedException i){}
+            
+            try {
+                FileWriter str = new FileWriter(this.nome);
+                str.write(txt);
+                str.close();
+            }catch (IOException ex) {}
+        }
     } 
 }
