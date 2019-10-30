@@ -3,6 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
+/**
+ * @author Rodrigo Augusto Valeretto e Leonardo Cerce Guioto
+ */
 package editordetexto;
 
 import java.util.InvalidPropertiesFormatException;
@@ -11,7 +15,7 @@ import java.util.Scanner;
 import javax.swing.JFrame;
 
 /**
- * Classe principal do programa, contém uma variável do tipo Texto e duas LinkedLists.
+ * Controla todo o funcionamento do editor em si, e tem as funções vitais do mesmo.
  * @author Rodrigo Valeretto e Leonardo Cerce
  */
 public class EditorDeTexto extends JFrame{
@@ -44,7 +48,6 @@ public class EditorDeTexto extends JFrame{
     }
     /**
      * Imprime na tela do usuário o texto completo por ele editado.
-     * @author Rodrigo Valeretto e Leonardo Cerce
      */
     public void exibetexto()
     {
@@ -204,7 +207,6 @@ public class EditorDeTexto extends JFrame{
     
     /**
      * Construtor da classe EditorDeTexto
-     * @author Rodrigo Valeretto e Leonardo Cerce
      */
     public EditorDeTexto() {
         this.t = new Texto();
@@ -223,7 +225,7 @@ public class EditorDeTexto extends JFrame{
         int num;
         String n;
         String op;
-        GUI g= new GUI(e);
+        GUI g = new GUI(e);
         
         g.setVisible(true);
         

@@ -6,7 +6,7 @@
 package editordetexto;
 
 /**
- * Classe contém dois parâmetros que são Strings
+ * Armazena as alterações que foram feitas pelas funções de inserir, remover e copiar texto.
  * @author Rodrigo Valeretto e Leonardo Cerce
  */
 public class Alteracoes {
@@ -15,7 +15,6 @@ public class Alteracoes {
 
     /**
      * Construtor da classe Alterações
-     * @author Rodrigo Valeretto e Leonardo Cerce
      * @param str
      * @param comando 
      */

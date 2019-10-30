@@ -8,7 +8,7 @@ package editordetexto;
 import java.util.LinkedList;
 
 /**
- * Classe contém um parâmetro correspondente à uma lista encadeada de caracteres
+ * Controla o armazenamento dos caracteres que compõem o texto.
  * @author Rodrigo Valeretto e Leonardo Cerce
  */
 public class Texto {
@@ -16,7 +16,6 @@ public class Texto {
 
     /**
      * Construtor da classe Texto que aloca uma lista encadeada ao parâmetro "text"
-     * @author Rodrigo Valeretto e Leonardo Cerce
      */
     public Texto() {
         this.text = new LinkedList();

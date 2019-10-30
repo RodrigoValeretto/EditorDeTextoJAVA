@@ -22,8 +22,8 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 /**
- * Classe correspondente a interface gráfica do editor de texto
- * @author rodrigo
+ * Classe correspondente a interface gráfica do editor de texto.
+ * @author Rodrigo Augusto Valeretto e Leonardo Cerce Guioto
  */
 public class GUI extends JFrame{
     private Server server;
@@ -47,7 +47,7 @@ public class GUI extends JFrame{
     private JScrollPane scroll2 = new JScrollPane(com);
     
     /**
-     * Construtor da classe editor de texto
+     * Construtor da classe GUI; inicializa as variáveis que definem a interface gráfica do editor, além de definir o que ocorre ao clicar nos botões da mesma.
      * @param n 
      */
     public GUI(EditorDeTexto n)
@@ -260,7 +260,7 @@ public class GUI extends JFrame{
     }
     
     /**
-     * Função copiar : Copia um texto selecionado no visor para uma variável da classe GUI
+     * Copia um texto selecionado no visor para uma variável da classe GUI.
      * @throws NullPointerException
      */
     public void copiar(){
@@ -272,7 +272,7 @@ public class GUI extends JFrame{
     }
     
     /**
-     * Função Recortar : Recorta um texto selecionado no visor para uma variável da classe GUI
+     * Recorta um texto selecionado no visor para uma variável da classe GUI.
      * @throws NullPointerException
      */
     public void recortar(){
@@ -296,7 +296,7 @@ public class GUI extends JFrame{
     }
     
     /**
-     * Função Colar : Cola uma string salva na área de transferência no fim do texto
+     * Cola uma string salva na área de transferência no fim do texto.
      */
     public void colar(){
         String str = this.visor.getText();

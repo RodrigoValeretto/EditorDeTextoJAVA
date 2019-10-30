@@ -9,14 +9,18 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 /**
- *
- * @author rodrigo
+ * Coordena o servidor responsável pelo salvamento do arquivo em edição.
+ * @author Rodrigo Augusto Valeretto e Leonardo Cerce Guioto
  */
 public class Server implements Runnable{
     private String nome;
     private String txt;
     private boolean flag;
 
+/**
+ * Construtor da classe Server; inicializa as variáveis nome e txt como strings vazias e flag como "true".
+ * @param flag 
+ */
     public Server(boolean flag) {
         this.nome = "";
         this.txt = "";
@@ -47,6 +51,9 @@ public class Server implements Runnable{
         this.flag = flag;
     }
     
+    /**
+     * Implementação da função da interface Runnable; controla o comportamento da thread durante a execução do programa. Quando ocorre interrupção, salva o texto num arquivo e espera até que um novo seja salvo.
+     */
     @Override
     public void run() {
         while(flag)
