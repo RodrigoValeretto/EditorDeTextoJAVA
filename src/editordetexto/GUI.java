@@ -26,7 +26,8 @@ import javax.swing.border.TitledBorder;
  * @author rodrigo
  */
 public class GUI extends JFrame{
-    private Server server = new Server(true);
+    private Server server;
+    private Thread t;
     private Lock lock = new ReentrantLock();
     private EditorDeTexto ed;
     private String copiado;
@@ -53,7 +54,8 @@ public class GUI extends JFrame{
     {
         this.ed = n;
         this.copiado = "";
-        Thread t = new Thread(server);
+        server = new Server(true);
+        t = new Thread(server);
         
         painel.setLayout(new GridLayout(1,8));
         
@@ -223,8 +225,16 @@ public class GUI extends JFrame{
         save.addActionListener(new ActionListener(){
             @Override
             public void actionPerformed(ActionEvent e) {
+                if(!server.isFlag())
+                {
+                    server = new Server(true);
+                    t = new Thread(server);
+                }
+                
                 if(!t.isAlive())
+                {
                     t.start();
+                }
                 
                 server.setNome(com.getText());
                 server.setTxt(visor.getText());
@@ -238,6 +248,11 @@ public class GUI extends JFrame{
             public void actionPerformed(ActionEvent e) {
                 server.setFlag(false);
                 t.interrupt();
+                ed.getT().getText().clear();
+                copiado = "";
+                visor.setText("");
+                com.setText("");
+
             }
         });
     }
