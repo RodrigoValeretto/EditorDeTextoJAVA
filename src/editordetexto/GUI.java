@@ -249,6 +249,8 @@ public class GUI extends JFrame{
                 server.setFlag(false);
                 t.interrupt();
                 ed.getT().getText().clear();
+                ed.getDesfaz().clear();
+                ed.getRefaz().clear();
                 copiado = "";
                 visor.setText("");
                 com.setText("");
