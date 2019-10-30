@@ -39,7 +39,7 @@ public class GUI extends JFrame{
     private JButton cut = new JButton("Recortar");
     private JButton paste = new JButton("Colar");
     private JButton save = new JButton("Salvar");
-    private JButton disconnect = new JButton("Deconectar");
+    private JButton disconnect = new JButton("Desconectar");
     private JTextArea visor = new JTextArea();
     private JTextArea com = new JTextArea();
     private JScrollPane scroll = new JScrollPane(visor);
@@ -57,7 +57,7 @@ public class GUI extends JFrame{
         
         painel.setLayout(new GridLayout(1,8));
         
-        this.setSize(900,900);
+        this.setSize(1280,720);
         this.setLayout(new BorderLayout());
 
         painel.add(undo);
@@ -74,14 +74,14 @@ public class GUI extends JFrame{
         visor.setLineWrap(true);
         scroll.setBorder(new TitledBorder(new EtchedBorder(), "Texto"));
         scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        scroll.setPreferredSize(new Dimension(400,400));
+        scroll.setPreferredSize(new Dimension(640,400));
         
         
         com.setEditable(true);
         com.setLineWrap(true);
         scroll2.setBorder(new TitledBorder(new EtchedBorder(), "Comandos"));
         scroll2.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        scroll2.setPreferredSize(new Dimension(400,400));
+        scroll2.setPreferredSize(new Dimension(640,320));
      
         this.add(painel, BorderLayout.SOUTH);
         this.add(scroll, BorderLayout.CENTER);
@@ -278,6 +278,9 @@ public class GUI extends JFrame{
         visor.select(0, 0);
     }
     
+    /**
+     * Função Colar : Cola uma string salva na área de transferência no fim do texto
+     */
     public void colar(){
         String str = this.visor.getText();
         
